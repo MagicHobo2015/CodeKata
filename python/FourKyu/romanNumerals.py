@@ -5,6 +5,7 @@
 #                                                                             *
 #   Info: CodeWars - Roman Numerals Helper                                    *
 #       Difficulty: 4 KYU                                                     *
+# URL: https://www.codewars.com/kata/51b66044bce5799a7f000003/train/python    *
 # ****************************************************************************/
 
 
@@ -21,30 +22,19 @@ class RomanNumerals:
         Returns:
             str: The roman numeral representation of the integer that was input.
         """
-        # This is similar to the correct change problem, so my first thought is .. stack?
+        # This is similar to the correct change problem, so my first thought is .. greedy
+        # there is a rule I overlooked about numbers to the right added and right subtracted.
         
-        # My First Pass is going to use this, call it brute force.
-        numeral_map = { 1 : 'I', 4 : 'IV', 5 : 'V', 10 : 'X', 50 : 'L', 100 : 'C', 500 : 'D', 1000 : 'M'}
+        # Conversion table.
+        numeral_map = { 1 : 'I', 5 : 'V', 10 : 'X', 50 : 'L', 100 : 'C', 500 : 'D', 1000 : 'M'}
         
         # To hold the results, and for readability
         results = ''
         
-        # now I need a sentinal
-        number = val
-        
-        # Start a loop through master list in reverse order because we want greatest to smalles.
-        for thing in reversed(numeral_map):
-            # this will loop untill current denomination is to big.
-            while ( number > thing ):
-                # subtract one denomination from the sentinal
-                number -= thing
-                # new results holder
-                numToNum = numeral_map[thing]
-                
-            number = 0
-        
-        
-        return ''
+
+
+
+        return results
 
 
 
@@ -53,21 +43,6 @@ class RomanNumerals:
         # TODO: algorithm here := ...
         return 0
 
-
-
-
-
-'''
-Symbol 	Value
-I 	1
-IV 	4
-V 	5
-X 	10
-L 	50
-C 	100
-D 	500
-M 	1000
-'''
 
 
 def displayResults(questions: list, answers: list, function_To_Run):
@@ -86,23 +61,35 @@ def displayResults(questions: list, answers: list, function_To_Run):
         print(f'Actual Results were:\t {results}\n')
         
         print("-" * 80)
+        if pause:
+            input("Press Return for next page")
 
 # from before I was using pytest.
-def main():
-    # Test Case Roman to Int
+def main(debug):
+    # Test Case Roman to Into
     one = ["M", "IV", "I", "MCMXC", "MMVIII"]
     oneA = [1000, 4, 1, 1990, 2008]
     
-    displayResults(one, oneA, RomanNumerals.from_roman)
+    # if debug == True:
+    #     displayResults(one, oneA, RomanNumerals.from_roman)
 
     
     two = [21, 1, 4, 2008, 1666]
     twoA = ['XXI', 'I', 'IV', 'MMVIII', 'MDCLXVI']
 
-    displayResults(two, twoA, RomanNumerals.to_roman)
-    
+    if debug:
+        displayResults(two, twoA, RomanNumerals.to_roman)
+
 
 # so this can be ran by itself.
 if __name__ == '__main__':
-    # main()
-    pass
+    # need this to check command line args.
+    import sys
+    
+    # Yay, Debug mode.
+    if 'debug' in sys.argv:
+        debug = True
+    else:
+        debug = False
+    
+    main( debug )
